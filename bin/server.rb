@@ -1,16 +1,20 @@
 require 'rack'
-require_relative '../lib/controller_base'
-require_relative '../lib/router'
-require_relative './exception_handler'
 
-class BadController < ControllerBase
+require_relative './exception_handler'
+require_relative './static_assets'
+
+require_relative '../lib/router'
+require_relative '../lib/controller_base'
+
+class TestController < ControllerBase
   def index
+    render_content("Hello", "text/html")
   end
 end
 
 router = Router.new
 router.draw do
-  get Regexp.new(""), BadController, :index
+  get Regexp.new("^/hello$"), TestController, :index
 end
 
 base = Proc.new do |env|
@@ -21,6 +25,7 @@ base = Proc.new do |env|
 end
 
 app = Rack::Builder.new do
+  use StaticAssets
   use ExceptionHandler
   run base
 end.to_app
