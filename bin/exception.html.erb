@@ -1,9 +1,6 @@
 <div id="error-container">
   <h2>Caught Exception</h2>
   <%= e.message %>
-  <% location = e.backtrace_locations.first %>
-  <% bad_line = location.lineno %>
-  <% code_array = File.readlines(location.absolute_path) %>
   <br><br>
 
   <div style="border:solid 2px black">
