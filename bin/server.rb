@@ -3,14 +3,8 @@ require_relative '../lib/controller_base'
 require_relative '../lib/router'
 require_relative './exception_handler'
 
-class BadController < ControllerBase
-  def index
-  end
-end
-
 router = Router.new
 router.draw do
-  get Regexp.new(""), BadController, :index
 end
 
 base = Proc.new do |env|

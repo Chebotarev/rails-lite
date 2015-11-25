@@ -1,5 +1,6 @@
 require 'erb'
 
+
 class ExceptionHandler
   def initialize(app)
     @app = app
@@ -9,9 +10,10 @@ class ExceptionHandler
     begin
       @app.call(env)
     rescue StandardError => e
-      status = 503
+      status = 500
       headers = { 'Content-Type' => 'text/html' }
-      body = [e.message, e.backtrace]
+      content = ERB.new(File.read('./bin/exception.html.erb')).result(binding)
+      body = [content]
       [status, headers, body]
     end
   end

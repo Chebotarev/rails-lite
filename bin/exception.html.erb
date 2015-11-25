@@ -1,0 +1,25 @@
+<div id="error-container">
+  <h2>Caught Exception</h2>
+  <%= e.message %>
+  <% location = e.backtrace_locations.first %>
+  <% bad_line = location.lineno %>
+  <% code_array = File.readlines(location.absolute_path) %>
+  <br><br>
+
+  <div style="border:solid 2px black">
+    <ul style="list-style-type: none">
+      <% ((bad_line - 4)..(bad_line + 4)).each do |line_num| %>
+        <li <%= "style=\"background-color:red\"" if line_num == bad_line %>>
+          <pre><%= line_num %>|<%= code_array[line_num] %></pre>
+        </li> 
+      <% end %>
+    </ul>
+  </div>
+
+  <h2>Stack Trace</h2>
+  <ul style="list-style-type: none">
+    <% e.backtrace.each do |trace| %>
+      <li><%= trace %></li>
+    <% end %>
+  </ul>
+</div>
